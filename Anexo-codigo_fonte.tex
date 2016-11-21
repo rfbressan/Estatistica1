@@ -1,0 +1,259 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Anexo - Código fonte em R},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Anexo - Código fonte em R}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{}
+  \preauthor{}\postauthor{}
+  \date{}
+  \predate{}\postdate{}
+
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Trabalho de Estatística I}
+\NormalTok{## PIB per capita do Brasil, Regiões, Estados do Sul }
+\NormalTok{## e Microrregiões de SC}
+\KeywordTok{library}\NormalTok{(reshape) }\CommentTok{# Para rearranjar os dados}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(xtable)}
+
+\KeywordTok{setwd}\NormalTok{(}\StringTok{"C:}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{Users}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{Rafael}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{Documents}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{UDESC}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{2 - Estatistica I}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{Trabalho PIB per Capta"}\NormalTok{)}
+
+\CommentTok{# Leitura dos dados no arquivo csv para um Data Frame}
+
+\NormalTok{dadosmicro <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(}\KeywordTok{read.csv2}\NormalTok{(}\StringTok{"Microrregioes-final.csv"}\NormalTok{))}
+\NormalTok{dadosreg <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(}\KeywordTok{read.csv2}\NormalTok{(}\StringTok{"PIB per capita-final.csv"}\NormalTok{))}
+
+
+\NormalTok{microrregioes <-}\StringTok{ }\KeywordTok{levels}\NormalTok{(dadosmicro$Microrregião)}
+\NormalTok{microrregioes <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(microrregioes, }\KeywordTok{c}\NormalTok{(}\StringTok{"ARA"}\NormalTok{, }\StringTok{"BLU"}\NormalTok{, }\StringTok{"CLS"}\NormalTok{, }\StringTok{"CAS"}\NormalTok{, }\StringTok{"CHO"}\NormalTok{, }\StringTok{"COA"}\NormalTok{, }\StringTok{"CRA"}\NormalTok{,}
+                                        \StringTok{"CUS"}\NormalTok{, }\StringTok{"FLS"}\NormalTok{, }\StringTok{"ITI"}\NormalTok{, }\StringTok{"ITA"}\NormalTok{, }\StringTok{"JOA"}\NormalTok{, }\StringTok{"JOE"}\NormalTok{, }\StringTok{"RIL"}\NormalTok{,}
+                                        \StringTok{"SAL"}\NormalTok{, }\StringTok{"SAE"}\NormalTok{, }\StringTok{"TAO"}\NormalTok{, }\StringTok{"TIS"}\NormalTok{, }\StringTok{"TUO"}\NormalTok{, }\StringTok{"XAE"}\NormalTok{))}
+\KeywordTok{colnames}\NormalTok{(microrregioes) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Microrregiões"}\NormalTok{, }\StringTok{"Sigla"}\NormalTok{)}
+\CommentTok{# Tabela com as correspondências de microrregiões e siglas}
+\KeywordTok{print.xtable}\NormalTok{(}\KeywordTok{xtable}\NormalTok{(microrregioes, }\DataTypeTok{caption =} \StringTok{"Lista das microrregiões e suas siglas"}\NormalTok{,}
+                    \DataTypeTok{label =} \StringTok{"tab:tabmicro"}\NormalTok{),}
+             \DataTypeTok{file =} \StringTok{"tabmicro.tex"}\NormalTok{, }\DataTypeTok{caption.placement =} \StringTok{"top"}\NormalTok{)}
+
+\NormalTok{## Evita imprmir numeros em notação científica}
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{scipen =} \DecValTok{7}\NormalTok{)}
+
+\CommentTok{# Estados}
+\NormalTok{plot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{subset}\NormalTok{(dadosreg, }\DataTypeTok{subset =} \NormalTok{(Sigla %in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"PR"}\NormalTok{, }\StringTok{"SC"}\NormalTok{, }\StringTok{"RS"}\NormalTok{))),}
+               \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Sigla, }\DataTypeTok{y=}\NormalTok{X2010, }\DataTypeTok{group=}\NormalTok{Sigla))}
+\NormalTok{plot <-}\StringTok{ }\NormalTok{plot+}\KeywordTok{geom_boxplot}\NormalTok{()+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{""}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Preços de 2000 - R$"}\NormalTok{,}
+                                 \DataTypeTok{title=}\StringTok{"PIB per capita 2010"}\NormalTok{)}
+\NormalTok{plot}
+
+\CommentTok{# Regiões}
+\NormalTok{plot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(dadosreg[,}\DecValTok{15}\NormalTok{:}\DecValTok{16}\NormalTok{], }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Região, }\DataTypeTok{y=}\NormalTok{X2010, }\DataTypeTok{group=}\NormalTok{Região))}
+\NormalTok{plot <-}\StringTok{ }\NormalTok{plot+}\KeywordTok{geom_boxplot}\NormalTok{()+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{""}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Preços de 2000 - R$"}\NormalTok{,}
+                                 \DataTypeTok{title=}\StringTok{"PIB per capita 2010"}\NormalTok{)}
+\NormalTok{plot}
+
+\CommentTok{# Microrregiões 1 a 10}
+\NormalTok{plot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{subset}\NormalTok{(dadosmicro, }\DataTypeTok{subset =} \NormalTok{(Microrregião %in%}\StringTok{ }\NormalTok{microrregioes[}\DecValTok{1}\NormalTok{:}\DecValTok{10}\NormalTok{,}\DecValTok{1}\NormalTok{])),}
+               \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Microrregião, }\DataTypeTok{y=}\NormalTok{X2010, }\DataTypeTok{group=}\NormalTok{Microrregião))}
+\NormalTok{plot <-}\StringTok{ }\NormalTok{plot+}\KeywordTok{geom_boxplot}\NormalTok{()+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{""}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Preços de 2000 - R$"}\NormalTok{,}
+                                 \DataTypeTok{title=}\StringTok{"PIB per capita 2010"}\NormalTok{)+}
+\StringTok{        }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{breaks =} \NormalTok{microrregioes[}\DecValTok{1}\NormalTok{:}\DecValTok{10}\NormalTok{,}\DecValTok{1}\NormalTok{],}
+                         \DataTypeTok{labels =} \NormalTok{microrregioes[}\DecValTok{1}\NormalTok{:}\DecValTok{10}\NormalTok{,}\DecValTok{2}\NormalTok{])}
+\NormalTok{plot}
+
+\CommentTok{# Microrregiões 11 a 20}
+\NormalTok{plot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{subset}\NormalTok{(dadosmicro, }\DataTypeTok{subset =} \NormalTok{(Microrregião %in%}\StringTok{ }\NormalTok{microrregioes[}\DecValTok{11}\NormalTok{:}\DecValTok{20}\NormalTok{,}\DecValTok{1}\NormalTok{])),}
+               \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Microrregião, }\DataTypeTok{y=}\NormalTok{X2010))}
+\NormalTok{plot <-}\StringTok{ }\NormalTok{plot+}\KeywordTok{geom_boxplot}\NormalTok{()+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{""}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Preços de 2000 - R$"}\NormalTok{,}
+                                 \DataTypeTok{title=}\StringTok{"PIB per capita 2010"}\NormalTok{)+}
+\StringTok{        }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{breaks =} \NormalTok{microrregioes[}\DecValTok{11}\NormalTok{:}\DecValTok{20}\NormalTok{,}\DecValTok{1}\NormalTok{],}
+                         \DataTypeTok{labels =} \NormalTok{microrregioes[}\DecValTok{11}\NormalTok{:}\DecValTok{20}\NormalTok{,}\DecValTok{2}\NormalTok{])}
+\NormalTok{plot}
+
+\CommentTok{# Evolução temporal das microrregiões}
+\KeywordTok{colnames}\NormalTok{(dadosmicro)[}\DecValTok{4}\NormalTok{:}\DecValTok{15}\NormalTok{] <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"1999"}\NormalTok{,}\StringTok{"2000"}\NormalTok{,}\StringTok{"2001"}\NormalTok{,}\StringTok{"2002"}\NormalTok{,}\StringTok{"2003"}\NormalTok{, }\StringTok{"2004"}\NormalTok{,}\StringTok{"2005"}\NormalTok{,}
+                                \StringTok{"2006"}\NormalTok{,}\StringTok{"2007"}\NormalTok{,}\StringTok{"2008"}\NormalTok{,}\StringTok{"2009"}\NormalTok{,}\StringTok{"2010"}\NormalTok{)}
+\NormalTok{dadostemp <-}\StringTok{ }\KeywordTok{melt}\NormalTok{(dadosmicro, }\DataTypeTok{id=}\KeywordTok{c}\NormalTok{(}\StringTok{"Município"}\NormalTok{, }\StringTok{"Microrregião"}\NormalTok{),}
+                  \DataTypeTok{measure.vars =} \KeywordTok{c}\NormalTok{(}\StringTok{"1999"}\NormalTok{,}\StringTok{"2000"}\NormalTok{,}\StringTok{"2001"}\NormalTok{,}\StringTok{"2002"}\NormalTok{,}\StringTok{"2003"}\NormalTok{, }\StringTok{"2004"}\NormalTok{,}\StringTok{"2005"}\NormalTok{,}
+                                   \StringTok{"2006"}\NormalTok{,}\StringTok{"2007"}\NormalTok{,}\StringTok{"2008"}\NormalTok{,}\StringTok{"2009"}\NormalTok{,}\StringTok{"2010"}\NormalTok{),}
+                  \DataTypeTok{variable_name =} \StringTok{"Ano"}\NormalTok{)}
+
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{20}\NormalTok{)\{}
+  \NormalTok{plot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{subset}\NormalTok{(dadostemp, }\DataTypeTok{subset =} \NormalTok{(Microrregião %in%}\StringTok{ }\NormalTok{microrregioes[i,}\DecValTok{1}\NormalTok{])),}
+                \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{factor}\NormalTok{(Ano), }\DataTypeTok{y=}\NormalTok{value, }\DataTypeTok{group =} \NormalTok{Ano))}
+  \NormalTok{plot <-}\StringTok{ }\NormalTok{plot+}\KeywordTok{geom_boxplot}\NormalTok{()+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{""}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Preços de 2000 - R$"}\NormalTok{,}
+                                 \DataTypeTok{title=}\KeywordTok{paste}\NormalTok{(}\StringTok{"Microrregião "}\NormalTok{,microrregioes[i,}\DecValTok{1}\NormalTok{]))}
+  \CommentTok{# Plota para um arquivo}
+  \KeywordTok{jpeg}\NormalTok{(}\KeywordTok{paste}\NormalTok{(microrregioes[i,}\DecValTok{2}\NormalTok{],}\StringTok{".jpg"}\NormalTok{), }\DataTypeTok{width =} \DecValTok{593}\NormalTok{, }\DataTypeTok{height =} \DecValTok{434}\NormalTok{)}
+  \KeywordTok{print}\NormalTok{(plot)}
+  \KeywordTok{dev.off}\NormalTok{() }\CommentTok{# Fecha o arquivo grafico}
+  \KeywordTok{rm}\NormalTok{(plot)}
+\NormalTok{\}}
+
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{scipen =} \DecValTok{0}\NormalTok{) }\CommentTok{# Retorna ao valor padrão}
+
+\NormalTok{## Calcula a mediana de cada microrregião para cada ano}
+\NormalTok{micromediana <-}\StringTok{ }\KeywordTok{aggregate}\NormalTok{(dadosmicro[,}\DecValTok{4}\NormalTok{:}\DecValTok{15}\NormalTok{], }\KeywordTok{list}\NormalTok{(Microrregiã}\DataTypeTok{o=}\NormalTok{dadosmicro$Microrregião),}
+                          \NormalTok{median)}
+\CommentTok{# Calcula a taxa média geométrica do crescimento da mediana do pib per capta}
+\NormalTok{cagr <-}\StringTok{ }\KeywordTok{apply}\NormalTok{(micromediana[-}\DecValTok{1}\NormalTok{], }\DecValTok{1}\NormalTok{, function(x) (((x[}\DecValTok{12}\NormalTok{]/x[}\DecValTok{1}\NormalTok{])^(}\DecValTok{1}\NormalTok{/}\DecValTok{12}\NormalTok{))-}\DecValTok{1}\NormalTok{)*}\DecValTok{100}\NormalTok{)}
+\NormalTok{micromediana <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(micromediana, cagr)}
+\NormalTok{micromediana <-}\StringTok{ }\NormalTok{micromediana[}\KeywordTok{order}\NormalTok{(micromediana[,}\StringTok{"cagr"}\NormalTok{], }\DataTypeTok{decreasing =} \OtherTok{TRUE}\NormalTok{),]}
+\KeywordTok{colnames}\NormalTok{(micromediana)[}\KeywordTok{length}\NormalTok{(}\KeywordTok{colnames}\NormalTok{(micromediana))] <-}\StringTok{ "CAGR (%a.a.)"}
+\CommentTok{# Tabela com os crescimentos das medianas de cada microrregião}
+\KeywordTok{print.xtable}\NormalTok{(}\KeywordTok{xtable}\NormalTok{(micromediana[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{14}\NormalTok{)], }
+                    \DataTypeTok{caption =} \StringTok{"Crescimento médio anual da mediana de cada microrregião."}\NormalTok{,}
+                    \DataTypeTok{label =} \StringTok{"tab:cagrmicro"}\NormalTok{, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{),}
+             \DataTypeTok{file =} \StringTok{"tabcagr.tex"}\NormalTok{, }\DataTypeTok{caption.placement =} \StringTok{"top"}\NormalTok{, }\DataTypeTok{include.rownames =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{#######################################################################################}
+\NormalTok{## Analise dos outliers da cada regiao e estado do sul}
+
+\CommentTok{# Regiões}
+\NormalTok{maxreg <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(dadosreg$X2010, dadosreg$Região, max)}
+\NormalTok{muni <-}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\DataTypeTok{mode =} \StringTok{"character"}\NormalTok{, }\DataTypeTok{length =} \DecValTok{5}\NormalTok{)}
+\NormalTok{for(i in }\KeywordTok{seq_along}\NormalTok{(maxreg))\{}
+\NormalTok{muni[i] <-}\StringTok{ }\KeywordTok{as.character}\NormalTok{(dadosreg[}\KeywordTok{which}\NormalTok{(dadosreg$X2010==maxreg[i] &}
+\StringTok{                   }\NormalTok{dadosreg$Região ==}\StringTok{ }\KeywordTok{dimnames}\NormalTok{(maxreg)[[}\DecValTok{1}\NormalTok{]][i]), }\StringTok{"Município"}\NormalTok{])}
+\NormalTok{\}}
+\NormalTok{maxreg <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(muni, maxreg)}
+\KeywordTok{colnames}\NormalTok{(maxreg) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Município"}\NormalTok{, }\StringTok{"PIB per capita"}\NormalTok{)}
+\KeywordTok{print.xtable}\NormalTok{(}\KeywordTok{xtable}\NormalTok{(maxreg, }\DataTypeTok{caption =} \StringTok{"Municípios com os maiores PIB per capita em 2010,}
+\StringTok{                    por regiões."}\NormalTok{,}
+                    \DataTypeTok{label =} \StringTok{"tab:maxreg"}\NormalTok{, }\DataTypeTok{digits=}\DecValTok{0}\NormalTok{),}
+             \DataTypeTok{file =} \StringTok{"tabmaxreg.tex"}\NormalTok{, }\DataTypeTok{caption.placement =} \StringTok{"top"}\NormalTok{)}
+
+\CommentTok{# Estados do Sul}
+\NormalTok{maxest <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(dadosreg$X2010, dadosreg$Sigla, max)[}\KeywordTok{c}\NormalTok{(}\StringTok{"PR"}\NormalTok{, }\StringTok{"SC"}\NormalTok{, }\StringTok{"RS"}\NormalTok{)]}
+\NormalTok{muni <-}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\DataTypeTok{mode =} \StringTok{"character"}\NormalTok{, }\DataTypeTok{length =} \DecValTok{3}\NormalTok{)}
+\NormalTok{for(i in }\KeywordTok{seq_along}\NormalTok{(maxest))\{}
+  \NormalTok{muni[i] <-}\StringTok{ }\KeywordTok{as.character}\NormalTok{(dadosreg[}\KeywordTok{which}\NormalTok{(dadosreg$X2010==maxest[i] &}
+\StringTok{                                           }\NormalTok{dadosreg$Sigla ==}\StringTok{ }\KeywordTok{dimnames}\NormalTok{(maxest)[[}\DecValTok{1}\NormalTok{]][i]),}
+                                   \StringTok{"Município"}\NormalTok{])}
+\NormalTok{\}}
+\NormalTok{maxest <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(muni, maxest)}
+\KeywordTok{colnames}\NormalTok{(maxest) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Município"}\NormalTok{, }\StringTok{"PIB per capita"}\NormalTok{)}
+\KeywordTok{print.xtable}\NormalTok{(}\KeywordTok{xtable}\NormalTok{(maxest, }\DataTypeTok{digits=}\DecValTok{0}\NormalTok{, }\DataTypeTok{caption =} \StringTok{"Municípios com os maiores PIB per capita}
+\StringTok{                    em 2010, por estados do Sul."}\NormalTok{,}
+                    \DataTypeTok{label =} \StringTok{"tab:maxest"}\NormalTok{),}
+             \DataTypeTok{file =} \StringTok{"tabmaxest.tex"}\NormalTok{, }\DataTypeTok{caption.placement =} \StringTok{"top"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

@@ -1,0 +1,122 @@
+---
+title: "Análise do PIB per capita das regiões do Brasil, estados do Sul e microrregiões de Santa Catarina"
+subtitle: "Trabalho de Estatística I"
+author: "Rafael Felipe Bressan"
+date: "13 de novembro de 2016"
+output: 
+  pdf_document: 
+    fig_caption: yes
+    fig_height: 3.8
+    fig_width: 5
+    number_sections: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+## Trabalho de Estatística I
+## PIB per capita do Brasil, Regiões, Estados do Sul 
+## e Microrregiões de SC
+library(reshape) # Para rearranjar os dados
+library(ggplot2)
+
+setwd("C:\\Users\\Rafael\\Documents\\UDESC\\2 - Estatistica I\\Trabalho PIB per Capta")
+
+# Leitura dos dados no arquivo xlsx para um Data Frame
+
+dadosdf <- read.csv2("PIB per capta regioes.csv")
+
+# Rearranjando os dados de forma tabulada
+dadostab <- cast(dadosdf, Ano ~ Regiao, value = "PIBrealpercapita")
+# Evolucao temporal
+dadostemp <- cast(dadosdf, Regiao ~ Ano, value = "PIBrealpercapita")
+
+# Conjuntos de dados
+regioes <- c("Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul")
+estados <- c("Paraná", "Santa Catarina", "Rio Grande do Sul")
+microrregioes <- levels(dadosdf$Regiao)[!levels(dadosdf$Regiao) %in% c(estados, regioes, "Brasil")]
+microrregioes <- cbind(microrregioes, c("ARA", "BLU", "CLS", "CAS", "CHO", "COA", "CRA",
+                                        "CUS", "FLS", "ITI", "ITA", "JOA", "JOE", "RIL",
+                                        "SAL", "SAE", "TAO", "TIS", "TUO", "XAE"))
+colnames(microrregioes) <- c("Microrregião", "Sigla")
+```
+
+# Introdução
+
+Neste trabalho iremos analisar o PIB per capita das regiões do Brasil, Norte, Nordeste, Centro-Oeste, Sudeste e Sul com relação as suas distribuições nos quatro anos entre 2010 a 2013, assim como a mesma medida para os três estados da região Sul e também as vinte microrregiões que compõe o estado de Santa Catarina. 
+
+Para as microrregiões de Santa Catarina, também é analisada a evolução temporal da distribuição dos PIB per capita destas no período em apreço.
+
+Os dados que foram obtidos do Instituto Brasileiro de Geografia e Estatística -- IBGE <http://ibge.gov.br/home/>, são as tabelas seguintes:
+
+* Tabela 5938 - Produto Interno Bruto a preços correntes (Mil Reais)
+* Tabela 4.22.1.1 - População residente, por situação do domicílio e sexo, segundo as mesorregiões, as microrregiões, os municípios, os distritos e os bairros - Santa Catarina - Resultados do Universo do Censo Demográfico 2010
+* População residente enviada ao Tribunal de Contas da União
+
+Já os dados obtidos do Ipeadata, <http://www.ipeadata.gov.br/>, mesmo que a fonte original seja o IBGE, foram:
+
+* População residente - 1º de julho - estimativas
+* PIB - deflator implícito - var. anual - ref. 2000 - (% a.a.)
+
+Com todas estas tabelas foi possível montar um pequeno banco de dados em que constavam, para cada região, estado e microrregição, informações do PIB a preços correntes, estimativa de população, deflator implícito do PIB e PIB per capita, para cada ano entre 2010 e 2013.
+
+# *Boxplots* das regiões e estados
+
+Iniciamos a análise com os gráficos para as regiões do país e em seguida para os estados da região Sul. Os dados são para PIB per capta a preços de 2013 em Reais, deflacionados pelo deflator **nacional** do PIB.
+
+Aqui vale ressaltar uma limitação da metodologia adotada. Não existem dados de deflatores de PIB regionais, estaduais e muito menos microrregionais. Idealmente, os dados de PIB a preços correntes, como aqueles que estão disponibilizados pelo IBGE, devem ser deflacionados pelos seus respectivos deflatores implícitos. Como os deflatores implícitos de cada PIB não são iguais, pois a "cesta" de produtos de cada PIB é diferente uma da outra, utilizar um mesmo deflator para todas as séries traz consigo um erro metodológico. Porém, considerando que não há outra opção de deflator e que utilizar um índice de preços outro também incorreria em problema semelhante, adotamos este método para calcular todos os PIB reais apresentados.
+
+Abaixo, na figura 1 temos portanto, as distribuições de PIB real per capita entre os anos de 2010 a 2013 entre as regiões do Brasil, enquanto que na figura 2 os estados da federação estão demonstrados.
+
+```{r reg, echo=FALSE, fig.cap="PIB real per capta das regiões"}
+plot <- ggplot(subset(dadosdf, subset = (Regiao %in% regioes)),
+                  aes(x=Regiao, y=PIBrealpercapita))
+plot <- plot+geom_boxplot()+labs(x="", y="Preços de 2013 - R$")
+plot
+```
+
+```{r est, echo=FALSE, fig.cap="PIB real per capta dos estados"}
+plot <- ggplot(subset(dadosdf, subset = (Regiao %in% estados)),
+                  aes(x=Regiao, y=PIBrealpercapita))
+plot <- plot+geom_boxplot()+labs(x="", y="Preços de 2013 - R$")
+plot
+```
+
+# Microrregiões de Santa Catarina
+
+Nesta seção será feita o mesmo tipo de análise anterior, porém aplicada as vinte microrregiões de Santa Catarina. Para melhorar a legibilidade dos gráficos, estas regiões foram divididas em 2 partes e os rótulos de eixo obedecem as siglas expostas na tabela 1 abaixo:
+
+```{r tabela, results="asis", echo=FALSE}
+knitr::kable(microrregioes, caption = "Lista das microrregiões e suas siglas")
+```
+
+As distribuições de PIB real per capita entre os anos de 2010 a 2013 entre as microrregiões de SC são apresentadas nas figuras 3 e 4.
+
+```{r micro1, echo=FALSE, fig.cap="PIB real per capta das microrregiões 1-10"}
+plot <- ggplot(subset(dadosdf, subset = (Regiao %in% microrregioes[1:10])),
+               aes(x=Regiao, y=PIBrealpercapita))
+plot <- plot+geom_boxplot()+labs(x="", y="Preços de 2013 - R$")+
+  scale_x_discrete(breaks = microrregioes[1:10,1],
+                   labels = microrregioes[1:10,2])
+plot
+```
+
+```{r micro2, echo=FALSE, fig.cap="PIB real per capta das microrregiões 11-20"}
+plot <- ggplot(subset(dadosdf, subset = (Regiao %in% microrregioes[11:20])),
+               aes(x=Regiao, y=PIBrealpercapita))
+plot <- plot+geom_boxplot()+labs(x="", y="Preços de 2013 - R$")+
+  scale_x_discrete(breaks = microrregioes[11:20,1],
+                   labels = microrregioes[11:20,2])
+plot
+```
+
+## Evolução temporal das microrregiões
+
+Agora tomaremos o grupo de microrregiões e analisaremos a distribuição do PIB real per capita entre estas ao longo dos anos. A figura 5 surge:
+
+```{r microtemp, echo=FALSE, fig.cap="PIB real per capta das microrregiões, evolução temporal"}
+plot <- ggplot(subset(dadosdf, subset = (Regiao %in% microrregioes)),
+               aes(x=factor(Ano), y=PIBrealpercapita, group=Ano))
+plot <- plot+geom_boxplot()+labs(x="", y="Preços de 2013 - R$")
+plot
+```
